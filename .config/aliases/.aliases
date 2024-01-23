@@ -1,0 +1,48 @@
+# general
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+alias path='echo -e ${PATH//:/\\n}'
+alias stats="history | awk '{CMD[\$2]++;count++;}END { for (a in CMD)print CMD[a] \" \" CMD[a]/count*100 \"% \" a;}' | grep -v \"./\" | column -c3 -s \" \" -t | sort -nr | nl |  head -n10"
+
+# archives
+alias untar='tar -xzvf'
+alias plstar='tar -czvf'
+
+# networking
+alias ports='netstat -tulanp'
+alias hazip='curl icanhazip.com'
+
+# pentest
+alias weakpass='curl http://www.weakpasswords.net | grep -v @ > weakpasswords.out'
+
+# linux convenience
+alias open="xdg-open"
+alias bat="batcat"
+
+# windows convenience
+#alias ytdlp="yt-dlp.exe"
+#alias explorer="explorer.exe"
+#alias ffmpeg="ffmpeg.exe"
+#alias firefox="firefox.exe"
+
+# cargo
+alias ct="cargo test"
+alias ca="cargo add"
+
+# phpspec
+alias phpspec="./vendor/bin/phpspec"
+alias r="phpspec run"
+
+# utility
+alias sourcealias="source ~/.config/aliases/.aliases"
+alias vimalias="vim ~/.config/aliases/.aliases"
+alias vimhosts="sudo vim /etc/hosts"
+
+alias gittree="git ls-tree -r master --name-only"
+alias fuck="echo fuck"
+
+source $HOME/.config/aliases/.exa
+
