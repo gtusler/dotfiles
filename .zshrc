@@ -29,6 +29,9 @@ export PATH="$PATH:$HOME/dev/bin/tse/scripts"
 # nvim version manager
 export PATH="$PATH:$HOME/.local/share/bob/nvim-bin"
 
+# need those aliases
+source $HOME/.config/aliases/.aliases
+
 
 # Bun completions
 [ -s "/home/govi/.bun/_bun" ] && source "/home/govi/.bun/_bun"
