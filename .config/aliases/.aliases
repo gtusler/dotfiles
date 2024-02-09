@@ -46,5 +46,13 @@ alias fuck="echo fuck"
 
 alias fman="compgen -c | fzf | xargs man"
 
+alias rmnodemodules="find . -name 'node_modules' -type d |
+    xargs du -sh |
+    sort -hr |
+    fzf -m --header \"Select which ones to delete\" --preview 'cat $(dirname {})/package.json' |
+    awk '{print $2}' |
+    xargs -r rm -rf
+"
+
 source $HOME/.config/aliases/.exa
 
