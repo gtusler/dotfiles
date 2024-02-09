@@ -44,5 +44,7 @@ alias vimhosts="sudo vim /etc/hosts"
 alias gittree="git ls-tree -r master --name-only"
 alias fuck="echo fuck"
 
+alias fman="compgen -c | fzf | xargs man"
+
 source $HOME/.config/aliases/.exa
 
