@@ -26,6 +26,8 @@ export EDITOR="nvim"
 export PATH="$PATH:$HOME/dev/bin"
 export PATH="$PATH:$HOME/dev/bin/tse/scripts"
 
+export PATH="$PATH:$HOME/.local/bin"
+
 # nvim version manager
 export PATH="$PATH:$HOME/.local/share/bob/nvim-bin"
 
