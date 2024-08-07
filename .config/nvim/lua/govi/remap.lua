@@ -7,6 +7,10 @@ vim.keymap.set('n', '<leader>pv', vim.cmd.Ex) -- quick open netrw
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 
+-- delete a word using backspace
+vim.keymap.set('n', '<C-BS>', 'diw')
+vim.keymap.set('n', '<leader><C-BS>', '"_diw') -- into void register
+
 -- append next line to this one, separated by space, persisting cursor position
 vim.keymap.set('n', 'J', 'mzJ`z')
 
