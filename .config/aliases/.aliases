@@ -20,13 +20,15 @@ alias weakpass='curl http://www.weakpasswords.net | grep -v @ > weakpasswords.ou
 
 # linux convenience
 alias open="xdg-open"
-alias bat="batcat"
 
 # windows convenience
 #alias ytdlp="yt-dlp.exe"
 #alias explorer="explorer.exe"
 #alias ffmpeg="ffmpeg.exe"
 #alias firefox="firefox.exe"
+
+# editor
+alias vim='nvim'
 
 # cargo
 alias ct="cargo test"
@@ -54,5 +56,4 @@ alias rmnodemodules="find . -name 'node_modules' -type d |
     xargs -r rm -rf
 "
 
-source $HOME/.config/aliases/.exa
-
+source $HOME/.config/aliases/.eza

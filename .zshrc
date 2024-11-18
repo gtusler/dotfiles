@@ -5,8 +5,10 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export ZSH=$HOME/.oh-my-zsh
+# ========================
+# ZSH CUSTOMISATION
 
+export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
@@ -19,39 +21,54 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Custom stuff
+
+# ========================
+# EDITOR
+
+# neovim
 export EDITOR="nvim"
+export PATH="$PATH:$HOME/.local/share/bob/nvim-bin" # nvim version manager
 
-export PATH="$PATH:$HOME/dev/bin"
-export PATH="$PATH:$HOME/dev/bin/tse/scripts"
 
-export PATH="$PATH:$HOME/.local/bin"
-
-# nvim version manager
-export PATH="$PATH:$HOME/.local/share/bob/nvim-bin"
+# ========================
+# PERSONAL THINGS
 
 # need those aliases
 source $HOME/.config/aliases/.aliases
 
+# a mess of user-specific dirs
+export PATH="$PATH:$HOME/dev/bin"
+export PATH="$PATH:$HOME/dev/bin/clit" # Hopefully won't need this for much longer
+export PATH="$PATH:$HOME/dev/bin/tse/scripts"
+export PATH="$PATH:$HOME/.local/bin"
 
-# Bun completions
-[ -s "/home/govi/.bun/_bun" ] && source "/home/govi/.bun/_bun"
 
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+# ========================
+# LANGUAGES
 
 # Node version manager
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+[ -s "/home/govi/.bun/_bun" ] && source "/home/govi/.bun/_bun" # completions
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# pnpm
+export PNPM_HOME="/home/govi/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
 
+# deno
+. "$HOME/.deno/env"
 
-# possibly run on launch?
-# neofetch
-
+# go
+export PATH="$PATH:/usr/local/go/bin"
+export PATH="$PATH:$HOME/go/bin"

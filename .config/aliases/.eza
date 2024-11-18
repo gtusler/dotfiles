@@ -1,0 +1,12 @@
+# eza for pretty ls
+alias l='eza -la --header --icons --git --octal-permissions --no-permissions --total-size'
+alias ll='eza -la --header --icons --git --octal-permissions --group --total-size'
+alias la='ll --accessed --modified --created --extended'
+alias lg='eza -la --header --icons --git --no-permissions --no-time --no-user --no-filesize --grid'
+alias ld='l --only-dirs'
+alias lf='l --only-files'
+alias lld='ll --only-dirs'
+alias llf='ll --only-files'
+alias lt='eza --tree --icons'
+alias lt2='eza --tree --icons --level 2'
+alias lt3='eza --tree --icons --level 3'
