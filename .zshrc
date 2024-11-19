@@ -18,12 +18,19 @@ plugins=(
     git
 )
 
+# customise oh-my-zsh completion dump location
+export ZSH_COMPDUMP="$ZSH/cache/.zcompdump-$HOST"
+
 source $ZSH/oh-my-zsh.sh
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# load powerlevel10k
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh
 
+# load syntax highlighting
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# load completions
+source ~/.zsh-completions/uv
 
 # ========================
 # EDITOR
