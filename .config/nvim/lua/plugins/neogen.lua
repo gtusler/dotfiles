@@ -15,6 +15,7 @@ return {
             neogen.generate({ type = "func" })
         end)
 
+
         vim.keymap.set('n', '<leader>nt', function()
             neogen.generate({ type = "type" })
         end)

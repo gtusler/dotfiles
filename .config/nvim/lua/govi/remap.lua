@@ -1,14 +1,12 @@
-vim.g.mapleader = " "
+vim.g.mapleader = ' '
 
-vim.keymap.set('n', '<leader>pv', vim.cmd.Ex) -- quick open netrw
+-- vim.keymap.set('n', '<leader>pv', vim.cmd.Ex, { desc = 'quick open netrw' })
+vim.keymap.set('n', '<leader>pv', "<cmd>Oil<cr>", { desc = 'quick open oil' })
+vim.keymap.set('n', '-', "<cmd>Oil<cr>", { desc = 'quick open oil' })
 
 -- move selected lines up and down
-vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'move selected line up' })
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
-
--- delete a word using backspace
-vim.keymap.set('n', '<C-BS>', 'diw')
-vim.keymap.set('n', '<leader><C-BS>', '"_diw') -- into void register
 
 -- append next line to this one, separated by space, persisting cursor position
 vim.keymap.set('n', 'J', 'mzJ`z')
@@ -36,7 +34,7 @@ vim.keymap.set('n', '<leader>Y', '"+y')
 -- capital Q is the worst place in the universe
 vim.keymap.set('n', 'Q', '<nop>')
 
--- replace the word you're on
+-- replace the word you're on across the whole file
 vim.keymap.set('n', '<leader>s', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>')
 
 -- make the current file executable
@@ -71,21 +69,13 @@ end
 vim.api.nvim_create_user_command('VerticalSplit', do_vertical_split, {})
 vim.api.nvim_create_user_command('HorizontalSplit', do_horizontal_split, {})
 
-vim.keymap.set('n', '<C-Bslash>', function() vim.cmd('VerticalSplit') end)
 vim.keymap.set('n', '<leader>vs', function() vim.cmd('VerticalSplit') end)
 vim.keymap.set('n', '<leader>hs', function() vim.cmd('HorizontalSplit') end)
 
 
-
--- delete words forwards and backwards with alt
-vim.keymap.set('i', '<M-Del>', '<C-[><C-[>ldwi')
-vim.keymap.set('i', '<M-BS>', '<C-[><C-[>ldbi')
-vim.keymap.set('n', '<M-Del>', 'dw')
-
-
 -- -- move right by word using alt
-vim.keymap.set('i', '<M-l>', '<C-[><C-[>lwi')
-vim.keymap.set('i', '<M-Right>', '<C-[><C-[>lwi')
+-- vim.keymap.set('i', '<M-l>', '<C-[><C-[>lwi') -- in insert mode, this nudges one char by defaultl
+-- vim.keymap.set('i', '<M-Right>', '<C-[><C-[>lwi')
 vim.keymap.set('n', '<M-l>', 'w')
 vim.keymap.set('n', '<M-Right>', 'w')
 vim.keymap.set('v', '<M-l>', 'w')
@@ -102,7 +92,7 @@ vim.keymap.set('v', '<M-Left>', 'b')
 -- navigation
 vim.keymap.set('n', "L", "<cmd>bnext<cr>")
 vim.keymap.set('n', "H", "<cmd>bprevious<cr>")
-vim.keymap.set('n', "F", "<cmd>HopPattern<cr>")
+-- vim.keymap.set('n', "F", "<cmd>HopPattern<cr>") -- This doesn't work.
 
 
 -- place a semicolon at the end of the line, would be nice if it reset cursor position
@@ -113,26 +103,19 @@ vim.keymap.set('n', '<C-;>', '<End>a;<C-[>')
 vim.keymap.set('n', '<C-v>', function() send_keys('ip<C-[>') end)
 
 
--- copy the whole file to the clipboard
+-- TODO: copy the whole file to the clipboard
 
 -- if i use rust tools, i can do things like <leader>rj to combine lines
 -- https://github.com/simrat39/rust-tools.nvim
 
 
--- autocommand for elm format, i wish
--- need to run a command line thing but nvim has its own things called commandline
--- great.
--- local elmfmt_group= vim.api.nvim_create_augroup( "Elm Format", {clear=true} )
--- vim.api.nvim_create_autocmd({"BufWritePost"},
---     { pattern = {"*.elm"},
---     })
---
--- local function do_elm_format()
---     -- elm-format --yes elm/
--- end
--- vim.api.nvim_create_user_command('ElmFormat', do_elm_format, {})
--- vim.exec
+-- unmap <f1> for help
+-- vim.keymap.del('n', '<F1>')
+-- vim.keymap.del({'n', 'i'}, '<F1>')
 
+
+-- =====================
+-- LSP GENERIC
 local GoviGroup = vim.api.nvim_create_augroup('Govi', {})
 
 vim.api.nvim_create_autocmd('LspAttach', {

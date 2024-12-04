@@ -1,0 +1,196 @@
+-- -- Custom commands for formatting specifc file types
+--
+-- -- ===========================
+-- -- UTILITIES
+--
+-- local function string_split(input, del)
+--     if del == nil then
+--         del = "%s"
+--     end
+--
+--     local output = {}
+--     for str in string.gmatch(input, "([^"..del.."]+)") do
+--         table.insert(output, str)
+--     end
+--     return output
+-- end
+--
+-- local function table_len(input)
+--     local output = 0
+--
+--     for _, _ in ipairs(input) do
+--         output = output + 1
+--     end
+--
+--     return output
+-- end
+--
+-- local function table_contains(input, compare)
+--     for _, v in ipairs(input) do
+--         if v == compare then
+--             return true
+--         end
+--     end
+--
+--     return false
+-- end
+--
+-- local function get_file_extension(file_path)
+--     local split = string_split(file_path, ".")
+--
+--     return split[table_len(split)]
+-- end
+--
+-- ---@param client vim.lsp.Client
+-- local function get_client_capabilities(client)
+--     local methods = {
+--         "$/cancelRequest",
+--         "$/logTrace",
+--         "$/setTrace",
+--         "$/progress",
+--         "textDocument/codeAction",
+--         "textDocument/codeLens",
+--         "textDocument/colorPresentation",
+--         "textDocument/completion",
+--         "textDocument/declaration",
+--         "textDocument/definition",
+--         "textDocument/diagnostic",
+--         "textDocument/didChange",
+--         "textDocument/didClose",
+--         "textDocument/didOpen",
+--         "textDocument/didSave",
+--         "textDocument/documentColor",
+--         "textDocument/documentHighlight",
+--         "textDocument/documentLink",
+--         "textDocument/documentSymbol",
+--         "textDocument/foldingRange",
+--         "textDocument/formatting",
+--         "textDocument/hover",
+--         "textDocument/implementation",
+--         "textDocument/inlayHint",
+--         "textDocument/inlineValue",
+--         "textDocument/linkedEditingRange",
+--         "textDocument/moniker",
+--         "textDocument/onTypeFormatting",
+--         "textDocument/publishDiagnostics",
+--         "textDocument/prepareRename",
+--         "textDocument/prepareCallHierarchy",
+--         "textDocument/prepareTypeHierarchy",
+--         "textDocument/rangeFormatting",
+--         "textDocument/references",
+--         "textDocument/rename",
+--         "textDocument/selectionRange",
+--         "textDocument/signatureHelp",
+--         "textDocument/semanticTokens",
+--         "textDocument/typeDefinition",
+--         "textDocument/willSave",
+--         "textDocument/willSaveWaitUntil",
+--         "workspace/applyEdit",
+--         "workspace/configuration",
+--         "workspace/codeLens/refresh",
+--         "workspace/diagnostic",
+--         "workspace/diagnostic/refresh",
+--         "workspace/didChangeConfiguration",
+--         "workspace/didChangeWatchedFiles",
+--         "workspace/didChangeWorkspaceFolders",
+--         "workspace/didCreateFiles",
+--         "workspace/didDeleteFiles",
+--         "workspace/didRenameFiles",
+--         "workspace/executeCommand",
+--         "workspace/inlayHint/refresh",
+--         "workspace/inlineValue/refresh",
+--         "workspace/semanticTokens/refresh",
+--         "workspace/willCreateFiles",
+--         "workspace/willDeleteFiles",
+--         "workspace/willRenameFiles",
+--         "workspace/workspaceFolders",
+--         "workspace/symbol",
+--         "workspaceSymbol/resolve",
+--     }
+--
+--     local output = ""
+--     for _, method in ipairs(methods) do
+--         output = output .. "\n" .. method .. ": " .. tostring(client.supports_method(method))
+--     end
+--     return output
+-- end
+--
+--
+-- -- ===========================
+-- -- COMMANDS
+--
+-- local function elm_format_current_file_with_cli()
+--     print(vim.fn.system({
+--         "elm-format",
+--         vim.api.nvim_buf_get_name(0),
+--         "--yes"
+--     }))
+-- end
+--
+-- ---@param client_name string
+-- local function format_single_file(client_name)
+--     if client_name == "elmls" then
+--         vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
+--     end
+-- end
+--
+--
+-- vim.api.nvim_create_user_command(
+--     'ElmFmt',
+--     function(opts)
+--         elm_format_current_file_with_cli()
+--     end,
+--     {}
+-- )
+--
+-- vim.api.nvim_create_user_command(
+--     'FileExt',
+--     function()
+--         local file_path = vim.api.nvim_buf_get_name(0)
+--         local file_ext = get_file_extension(file_path)
+--         print(file_ext)
+--     end,
+--     {}
+-- )
+--
+--
+--
+-- local autoformat_lsps = {
+--     "elmls",
+-- }
+--
+-- vim.api.nvim_create_autocmd("LspAttach", {
+--     group = vim.api.nvim_create_augroup("lsp_attach_govi_format", { clear = true }),
+--     callback = function(args)
+--         -- the buffer where the lsp attached
+--         ---@type number
+--         local buffer = args.buf
+--
+--         local file_ext = get_file_extension(vim.api.nvim_buf_get_name(buffer))
+--         vim.notify("attach " .. file_ext)
+--
+--         local client = vim.lsp.get_client_by_id(args.data.client_id)
+--         if client == nil then
+--             return
+--         end
+--
+--         if not table_contains(autoformat_lsps, client.name) then
+--             return
+--         end
+--
+--         if client.supports_method("textDocument/formatting") then
+--             vim.keymap.set(
+--                 "n",
+--                 "<leader>ff",
+--                 function() format_single_file(client.name) end,
+--                 {
+--                     desc = "Format a single file"
+--                 }
+--             )
+--         end
+--
+--         vim.notify("client " .. client.name)
+--         local capabilities = get_client_capabilities(client)
+--         vim.notify(capabilities)
+--     end,
+-- })

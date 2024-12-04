@@ -1,5 +1,12 @@
 -- lsp specific keybinds now live in lua/govi/remap.lua
 
+local function get_intelephense_license()
+    local f = assert(io.open(os.getenv("HOME") .. "/intelephense/licence.txt", "rb"))
+    local content = f:read("*a")
+    f:close()
+    return string.gsub(content, "%s+", "")
+end
+
 return {
     {
         "williamboman/mason.nvim",
@@ -19,7 +26,6 @@ return {
             'L3MON4D3/LuaSnip',
             'saadparwaiz1/cmp_luasnip',
             'j-hui/fidget.nvim', -- bottom right messages
-            'jose-elias-alvarez/null-ls.nvim',
         },
         config = function()
             local cmp = require('cmp')
@@ -30,8 +36,15 @@ return {
             require('mason-lspconfig').setup({
                 ensure_installed = {
                     "lua_ls",
+                    "cssls", -- css, scss and less
+                    "pyright", -- most python language features
+                    "ruff", -- python linting and formatting
                     "rust_analyzer",
-                    "tsserver"
+                    "ts_ls", -- typescript
+                    "marksman", -- markdown
+                    "jsonls", -- json
+                    "gopls", -- go
+                    "intelephense", -- php
                 },
                 handlers = {
                     function(server_name) -- default handler
@@ -51,8 +64,18 @@ return {
                             settings = {
                                 Lua = {
                                     diagnostics = {
+                                        -- recognise the `vim` global
                                         globals = { "vim" },
-                                    }
+                                    },
+                                    workspace = {
+                                        -- awareness of neovim runtime files
+                                        library = {
+                                            vim.api.nvim_get_runtime_file("", true)
+                                        }
+                                    },
+                                    telemetry = {
+                                        enable = false,
+                                    },
                                 }
                             }
                         })
@@ -62,6 +85,7 @@ return {
                         lspconfig.intelephense.setup({
                             settings = {
                                 intelephense = {
+                                    licenceKey = get_intelephense_license(),
                                     stubs = {
                                         "apache",
                                         "bcmath",
@@ -147,6 +171,37 @@ return {
                             }
                         })
                     end,
+                    ["denols"] = function()
+                        local lspconfig = require('lspconfig')
+                        lspconfig.denols.setup({
+                            root_dir = lspconfig.util.root_pattern('deno.json', 'deno.jsonc')
+                        })
+                    end,
+                    ["ts_ls"] = function()
+                        local lspconfig = require('lspconfig')
+                        lspconfig.ts_ls.setup({
+                            root_dir = lspconfig.util.root_pattern('package.json'),
+                            single_file_support = false,
+                        })
+                    end,
+                    ["pyright"] = function()
+                        local lspconfig = require('lspconfig')
+                        -- disable linting, formatting and organising imports in pyright
+                        lspconfig.pyright.setup({
+                            settings = {
+                                pyright = {
+                                    -- using ruff's import organiser
+                                    disableOrganizeImports = true,
+                                },
+                                python = {
+                                    analysis = {
+                                        -- Ignore all files for analysis to exclusively use ruff for linting
+                                        ignore = { '*' },
+                                    }
+                                }
+                            }
+                        })
+                    end,
                 }
             })
 
@@ -168,39 +223,6 @@ return {
                 }, {
                     { name = 'buffer' },
                 })
-            })
-
-
-            local null_ls = require('null-ls')
-            local group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false })
-            local event = "BufWritePre" -- or "BufWritePost"
-            local async = event == "BufWritePost"
-
-            null_ls.setup({
-              on_attach = function(client, bufnr)
-                if client.supports_method("textDocument/formatting") then
-                  vim.keymap.set("n", "<Leader>f", function()
-                    vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
-                  end, { buffer = bufnr, desc = "[lsp] format" })
-
-                  -- format on save
-                  vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
-                  vim.api.nvim_create_autocmd(event, {
-                    buffer = bufnr,
-                    group = group,
-                    callback = function()
-                      vim.lsp.buf.format({ bufnr = bufnr, async = async })
-                    end,
-                    desc = "[lsp] format on save",
-                  })
-                end
-
-                if client.supports_method("textDocument/rangeFormatting") then
-                  vim.keymap.set("x", "<Leader>f", function()
-                    vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
-                  end, { buffer = bufnr, desc = "[lsp] format" })
-                end
-              end,
             })
         end,
     },
