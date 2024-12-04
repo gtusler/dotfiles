@@ -45,6 +45,7 @@ return {
                     "jsonls", -- json
                     "gopls", -- go
                     "intelephense", -- php
+                    "phpcs",
                 },
                 handlers = {
                     function(server_name) -- default handler
