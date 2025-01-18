@@ -45,7 +45,6 @@ return {
                     "jsonls", -- json
                     "gopls", -- go
                     "intelephense", -- php
-                    "phpcs",
                 },
                 handlers = {
                     function(server_name) -- default handler
@@ -209,7 +208,7 @@ return {
             cmp.setup({
                 snippet = {
                     expand = function(args)
-                        require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+                        require('luasnip').lsp_expand(args.body)
                     end,
                 },
                 mapping = cmp.mapping.preset.insert({
@@ -220,7 +219,7 @@ return {
                 }),
                 sources = cmp.config.sources({
                     { name = 'nvim_lsp' },
-                    { name = 'luasnip' }, -- For luasnip users.
+                    { name = 'luasnip' },
                 }, {
                     { name = 'buffer' },
                 })

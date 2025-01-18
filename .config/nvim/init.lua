@@ -1,5 +1,8 @@
 require('govi')
-require('govi.remap')
-require('govi.set')
 
+require('govi.set')
+require('govi.remap')
 require('govi.lazy')
+require('govi.snippets')
+
+require('govi.formatting')

@@ -73,21 +73,21 @@ vim.keymap.set('n', '<leader>vs', function() vim.cmd('VerticalSplit') end)
 vim.keymap.set('n', '<leader>hs', function() vim.cmd('HorizontalSplit') end)
 
 
--- -- move right by word using alt
--- vim.keymap.set('i', '<M-l>', '<C-[><C-[>lwi') -- in insert mode, this nudges one char by defaultl
--- vim.keymap.set('i', '<M-Right>', '<C-[><C-[>lwi')
-vim.keymap.set('n', '<M-l>', 'w')
-vim.keymap.set('n', '<M-Right>', 'w')
-vim.keymap.set('v', '<M-l>', 'w')
-vim.keymap.set('v', '<M-Right>', 'w')
-
--- move left by word using alt
-vim.keymap.set('i', '<M-h>', '<C-[><C-[>bi')
-vim.keymap.set('i', '<M-Left>', function() send_keys('<C-[><C-[>lbi') end)
-vim.keymap.set('n', '<M-h>', 'b')
-vim.keymap.set('n', '<M-Left>', 'b')
-vim.keymap.set('v', '<M-h>', 'b')
-vim.keymap.set('v', '<M-Left>', 'b')
+-- -- -- move right by word using alt
+-- -- vim.keymap.set('i', '<M-l>', '<C-[><C-[>lwi') -- in insert mode, this nudges one char by defaultl
+-- -- vim.keymap.set('i', '<M-Right>', '<C-[><C-[>lwi')
+-- vim.keymap.set('n', '<M-l>', 'w')
+-- vim.keymap.set('n', '<M-Right>', 'w')
+-- vim.keymap.set('v', '<M-l>', 'w')
+-- vim.keymap.set('v', '<M-Right>', 'w')
+--
+-- -- move left by word using alt
+-- vim.keymap.set('i', '<M-h>', '<C-[><C-[>bi')
+-- vim.keymap.set('i', '<M-Left>', function() send_keys('<C-[><C-[>lbi') end)
+-- vim.keymap.set('n', '<M-h>', 'b')
+-- vim.keymap.set('n', '<M-Left>', 'b')
+-- vim.keymap.set('v', '<M-h>', 'b')
+-- vim.keymap.set('v', '<M-Left>', 'b')
 
 -- navigation
 vim.keymap.set('n', "L", "<cmd>bnext<cr>")
@@ -95,15 +95,13 @@ vim.keymap.set('n', "H", "<cmd>bprevious<cr>")
 -- vim.keymap.set('n', "F", "<cmd>HopPattern<cr>") -- This doesn't work.
 
 
--- place a semicolon at the end of the line, would be nice if it reset cursor position
-vim.keymap.set('i', '<C-;>', '<C-[><End>i')
-vim.keymap.set('n', '<C-;>', '<End>a;<C-[>')
+-- -- place a semicolon at the end of the line, would be nice if it reset cursor position
+-- vim.keymap.set('i', '<C-;>', '<C-[><End>i')
+-- vim.keymap.set('n', '<C-;>', '<End>a;<C-[>')
 
--- paste from clipboard in normal mode
-vim.keymap.set('n', '<C-v>', function() send_keys('ip<C-[>') end)
+-- -- paste from clipboard in normal mode
+-- vim.keymap.set('n', '<C-v>', function() send_keys('ip<C-[>') end)
 
-
--- TODO: copy the whole file to the clipboard
 
 -- if i use rust tools, i can do things like <leader>rj to combine lines
 -- https://github.com/simrat39/rust-tools.nvim
@@ -137,4 +135,3 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('i', '<C-h>', vim.lsp.buf.signature_help, opts)
     end,
 })
-

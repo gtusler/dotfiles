@@ -1,45 +1,10 @@
 -- -- Custom commands for formatting specifc file types
 --
+-- local util = require('govi.util')
+--
+--
 -- -- ===========================
 -- -- UTILITIES
---
--- local function string_split(input, del)
---     if del == nil then
---         del = "%s"
---     end
---
---     local output = {}
---     for str in string.gmatch(input, "([^"..del.."]+)") do
---         table.insert(output, str)
---     end
---     return output
--- end
---
--- local function table_len(input)
---     local output = 0
---
---     for _, _ in ipairs(input) do
---         output = output + 1
---     end
---
---     return output
--- end
---
--- local function table_contains(input, compare)
---     for _, v in ipairs(input) do
---         if v == compare then
---             return true
---         end
---     end
---
---     return false
--- end
---
--- local function get_file_extension(file_path)
---     local split = string_split(file_path, ".")
---
---     return split[table_len(split)]
--- end
 --
 -- ---@param client vim.lsp.Client
 -- local function get_client_capabilities(client)
@@ -147,7 +112,7 @@
 --     'FileExt',
 --     function()
 --         local file_path = vim.api.nvim_buf_get_name(0)
---         local file_ext = get_file_extension(file_path)
+--         local file_ext = util.get_file_extension(file_path)
 --         print(file_ext)
 --     end,
 --     {}
@@ -166,7 +131,7 @@
 --         ---@type number
 --         local buffer = args.buf
 --
---         local file_ext = get_file_extension(vim.api.nvim_buf_get_name(buffer))
+--         local file_ext = util.get_file_extension(vim.api.nvim_buf_get_name(buffer))
 --         vim.notify("attach " .. file_ext)
 --
 --         local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -174,7 +139,7 @@
 --             return
 --         end
 --
---         if not table_contains(autoformat_lsps, client.name) then
+--         if not util.table_contains(autoformat_lsps, client.name) then
 --             return
 --         end
 --
