@@ -1,0 +1,26 @@
+# FONTS
+font-family = "CaskaydiaCode NFM Light"
+font-family-bold = "CaskaydiaCode NFM Regular"
+font-family-italic = "CaskaydiaCode NFM Light Italic"
+font-family-bold-italic = "CaskaydiaCode NFM Italic"
+font-size = 11
+font-feature = liga
+# window-inherit-font-size = true
+
+# COLORS
+# Maybe I'll make my own theme at some point. I seem to find issue with all of them.
+theme = "deep"
+# background = 111111
+# foreground = ffffff
+selection-invert-fg-bg = true
+
+# CURSOR
+cursor-style = "block"
+shell-integration-features = no-cursor
+
+# OTHER NICE THINGS
+mouse-hide-while-typing = true
+copy-on-select = false
+
+# Disables the title bar completely. I think I kinda like it and could get used to this..
+window-decoration = false
