@@ -1,37 +1,62 @@
 format = """\
-[█](bg:#222222 fg:#222222)\
 $os\
-[](fg:#222222 bg:#082F82)\
+[│](fg:#888888 bg:#222222)\
 $directory\
-[](fg:#082F82 bg:#333333)\
+[│](fg:#888888 bg:#222222)\
 $git_branch\
 $git_status\
 $git_metrics\
-[](fg:#333333 bg:#030B16)\
+[](fg:#222222 bg:#030B16) \
 $fill\
 $cmd_duration\
-[](fg:#333333)$time
- $character \
+[](fg:#222222)$time[─┐](bold fg:#222222) 
+$character \
 """
 
+right_format = "[─┘](bold fg:#222222)"
+
 [directory]
-format = "[  $path ]($style)"
+format = "[  $path ]($style)[$read_only]($read_only_style)"
 # format = "[ ﱮ $path ]($style)"
-style = "fg:#E4E4E4 bg:#082F82"
+style = "fg:#3B76F0 bg:#222222"
+# style = "fg:#082F82 bg:#222222"
+# style = "fg:#E4E4E4 bg:#082F82"
 # style = "fg:#E4E4E4 bg:#3B76F0"
+truncate_to_repo = true
+# truncation_symbol = '.../'
+truncation_symbol = ''
+read_only_style = 'bg:#222222'
+repo_root_style = 'bold fg:#3B76F0 bg:#222222'
+repo_root_format = """\
+[ \ue702 ](fg:#3B76F0 bg:#222222)\
+[$before_root_path]($before_repo_root_style)\
+[$repo_root]($repo_root_style)\
+[$path]($style)\
+[$read_only ](read_only_style)\
+"""
 
 [git_branch]
 format = '[ $symbol$branch(:$remote_branch) ]($style)'
 symbol = " "
-style = "fg:#FCF392 bg:#333333"
+style = "fg:green bg:#222222"
+# style = "fg:#FCF392 bg:#222222"
 
 [git_status]
-format = '[$all_status]($style)'
-style = "fg:#FCF392 bg:#333333"
+format = '[$all_status$ahead_behind]($style)'
+style = "bg:#222222"
+# style = "fg:#FCF392 bg:#222222"
+ahead = '⇡${count} '
+behind = '⇣${count} '
+conflicted = '[=$count ](bold fg:red bg:#222222)'
+diverged = '⇕⇡${ahead_count}⇣${behind_count} '
+modified = '[!$count ](fg:yellow bg:#222222)'
+untracked = '[?$count ](fg:blue bg:#222222)'
+deleted = '[x$count ](fg:red bg:#222222)'
+stashed = '[\ued95 $count ](fg:green bg:#222222)'
 
 [git_metrics]
 format = "([+$added]($added_style))[]($added_style)"
-added_style = "fg:#FCF392 bg:#333333"
+added_style = "fg:#FCF392 bg:#222222"
 deleted_style = "fg:bright-red bg:235"
 disabled = false
 
@@ -40,7 +65,8 @@ format = "[ $symbol$branch ]($style)"
 symbol = " "
 
 [fill]
-symbol = " "
+symbol = "─"
+style = "bold #222222"
 
 [cmd_duration]
 format = "[ $duration ]($style)"
@@ -53,12 +79,14 @@ format = "$symbol"
 
 [time]
 disabled = false
-time_format = "%R" # HH:MM Format
-style = "bg:#333333 fg:#8DFBD2"
-format = '[ 󱑍 $time ]($style)'
+# time_format = "%R" # HH:MM Format
+time_format = "%H:%M:%S" # HH:MM:SS Format
+style = "bg:#222222 fg:#8DFBD2"
+format = '[ $time 󱑍 ]($style)'
 
 [os]
-style = "bg:#222222 fg:#7DF9AA"
+format = "[ $symbol ]($style)"
+style = "bg:#222222 fg:#AAAAAA"
 disabled = false
 
 [os.symbols]
